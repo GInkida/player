@@ -1,0 +1,36 @@
+version: '2'
+services:
+  app:
+    build: docker/local/.
+    volumes:
+      - ./docker/local/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/local/php/php.ini:/usr/local/etc/php/php.ini
+      - .:/var/www/app
+    depends_on:
+      - database
+      - redis
+    ports:
+      - "80:80"
+    environment:
+      - APP_ENVIRONMENT=local
+      - CONTAINER_ROLE=app
+  database:
+    image: mariadb:latest
+    volumes:
+      - ./docker/data/mysql:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: admin
+      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_PASSWORD: secret2
+      MYSQL_USER: forge
+  redis:
+    image: redis:7.0.4-alpine
+    command: redis-server --requirepass 4uUG3eff2saxlkjdhjn12kg
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=4uUG3eff2saxlkjdhjn12kg
+    volumes:
+      - /docker/data/redis:/data

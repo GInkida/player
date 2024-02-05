@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -15,7 +14,7 @@ return new class extends Migration
     {
         Schema::create('player_skills', function (Blueprint $table) {
             $table->id();
-            $table->string('skill', 20);
+            $table->enum('skill', ['defense', 'attack', 'speed', 'strength', 'stamina']);
             $table->tinyInteger('value')->default(0);
             $table->foreignId('player_id')
                 ->constrained('players')
