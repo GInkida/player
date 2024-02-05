@@ -62,9 +62,21 @@ class PlayerController extends Controller
         return response()->json($players);
     }
 
-    public function show()
+    /**
+     * Display the specified player.
+     *
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
     {
-        return response("Failed", 500);
+        $player = Player::find($id);
+
+        if (!$player) {
+            return response()->json(['message' => 'Player not found.'], 404);
+        }
+
+        return response()->json($player->load('skills'));
     }
 
     /**
