@@ -44,7 +44,6 @@ class PlayerController extends Controller
     public function update(CreatePlayerRequest $request, int $id): JsonResponse
     {
         $player = Player::findOrFail($id);
-
         $updatedPlayer = $this->playerService->updatePlayer($player, $request->validated());
 
         return response()->json($updatedPlayer, 200);
